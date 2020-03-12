@@ -1,0 +1,78 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          <style type="text/css">
+            .wrapper{
+                display: flex;
+            }
+            .main, .resault {
+                width: 49%;
+                height: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 5px;
+            }
+            [data-color="light-blue"] {
+                background: #87cefa;
+            }
+            [data-color="red"] {
+                background: red;
+            }
+            [data-color="green"] {
+                background: green;
+            }
+            [data-color="yellow"] {
+                background: yellow;
+            }
+            @media (max-width: 768px){
+                .main, .resault {
+                    width: 100%;
+                }
+                .wrapper{
+                    flex-wrap: wrap;
+                }
+            }
+          </style>
+</head>
+<body>
+    <div class="wrapper">
+            <div class="main" data-color="light-blue">
+                <form id="test" method="POST" action=""> 
+                    <input type="text" name="field">
+                    <input id="click_btn" type="button" value="Отправить">
+                </form>
+            </div>
+            <div class="resault" data-color="">
+            </div>
+        </div>
+        <script>
+            $('#click_btn').on('click', function() {
+               $.ajax({
+                  type: "POST",
+                  url: "/test_pb/form_controller.php",
+                  data: $('#test').serialize(),
+                  success: function(msg){
+                    data = JSON.parse(msg);
+                    $('.resault').html(data.text);
+                    $('.resault').attr("data-color", data.color);
+                    if(data.color === ''){
+                        data.color="light-blue";
+                    }
+                    $('.main').attr("data-color", data.color);
+                    
+                  }
+                });
+            });
+        </script>
+</body>
+</html>
+
+
